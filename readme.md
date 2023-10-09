@@ -1,25 +1,25 @@
-# OpenChatFile - opensource flask gpt boillerplate for talking with your documents
+# OpenChatDoc - opensource flask gpt boillerplate for talking with your documents
 
 ## Key Features 🎯
 
-- **OpenChatFile**: OpenChatFile is a versatile open-source project for file management and conversation using Flask framework.
-- **Simple UI**: The user interface of OpenChatFile is designed to be straightforward and user-friendly.
-- **OpenAI Integration**: OpenChatFile harnesses the power of OpenAI to facilitate intelligent conversations and information retrieval.
-- **Local Embeddings Storage**: OpenChatFile utilizes the FAISS library to store embeddings locally, enabling efficient search and retrieval of data.
-- **File Upload Support**: OpenChatFile allows users to upload various file formats, including docx, doc, pdf, and txt files.
-- **Multi-File Interactions**: OpenChatFile supports conversations and interactions with multiple files simultaneously.
+- **OpenChatDoc**: OpenChatDoc is a versatile open-source project for file management and conversation using Flask framework.
+- **Simple UI**: The user interface of OpenChatDoc is designed to be straightforward and user-friendly.
+- **OpenAI Integration**: OpenChatDoc harnesses the power of OpenAI to facilitate intelligent conversations and information retrieval.
+- **Local Embeddings Storage**: OpenChatDoc utilizes the FAISS library to store embeddings locally, enabling efficient search and retrieval of data.
+- **File Upload Support**: OpenChatDoc allows users to upload various file formats, including docx, doc, pdf, and txt files.
+- **Multi-File Interactions**: OpenChatDoc supports conversations and interactions with multiple files simultaneously.
 
 ## Demo Highlights 🎥
 
-[![OpenChatFile Demo](https://github.com/username/project/blob/main/demo.gif)](https://github.com/username/project/raw/main/demo.gif)
+https://github.com/johnsmithm/openchatdoc/assets/10476109/89e237ce-f206-4514-9338-3f5cefda47fe
 
-Click the image above to watch the OpenChatFile demo in action.
+Click the image above to watch the OpenChatDoc demo in action.
 
-## How to Use OpenChatFile 🚀
+## How to Use OpenChatDoc 🚀
 
-1. Clone the OpenChatFile repository:
+1. Clone the OpenChatDoc repository:
 ```
-git clone https://github.com/username/project.git
+git clone https://github.com/johnsmithm/openchatdoc.git
 ```
 
 2. Install the required dependencies using pip:
@@ -32,13 +32,13 @@ pip install -r requirements.txt
 python app.py 5000
 ```
 
-4. Access OpenChatFile in your web browser at `http://localhost:5000`.
+4. Access OpenChatDoc in your web browser at `http://localhost:5000`.
 
-Note: Please ensure that you have Python and Flask installed on your system before running OpenChatFile.
+Note: Please ensure that you have Python and Flask installed on your system before running OpenChatDoc.
 
 ## Contributing 🤝
 
-Contributions to OpenChatFile are welcome! Here are a few ways you can contribute:
+Contributions to OpenChatDoc are welcome! Here are a few ways you can contribute:
 - Bug fixes and issue resolution
 - Feature enhancements
 - Documentation improvements
@@ -60,7 +60,7 @@ Flask
 
 ### Programming languages
 
-Python 3
+Python 3.8.1
 
 ### Run & Development
 #### Docker

@@ -9,5 +9,5 @@ RUN pip install -r requirements.txt
 
 EXPOSE 6017
 
-# CMD ["/bin/bash"]
-CMD ["python","app.py","6017"]
+CMD ["/bin/bash"]
+# CMD ["python","app.py","6017"]

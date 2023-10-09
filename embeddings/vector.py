@@ -5,7 +5,7 @@ from langchain.vectorstores import FAISS
 from langchain.docstore.document import Document
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import Docx2txtLoader, PyPDFLoader, TextLoader
-import uuid, glob
+import uuid, glob, shutil
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -72,6 +72,11 @@ def process_files(files):
                 db.save_local(persist_directory)
                 db.save_local(FILES_DIR+'/all')
 
+    if os.path.exists(FILES_DIR+'/all'):
+        shutil.rmtree(FILES_DIR+'/all')
+
+    index_files()
+
 def index_files():
     db = None
 
@@ -81,12 +86,13 @@ def index_files():
             db = new_db
             continue
         db.merge_from(new_db)
-
-    db.save_local(FILES_DIR+'/all')
+    if db is not None:
+        db.save_local(FILES_DIR+'/all')
             
 
 def get_context(query):
-
+    if len(glob.glob(FILES_DIR+'/all'))==0:
+        return ''
     db = FAISS.load_local(FILES_DIR+'/all', embeddings)
 
     retriever = db.as_retriever()

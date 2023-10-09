@@ -106,8 +106,12 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
-                    document.getElementById('chat-box').innerHTML += `<div style="white-space: pre-line;" class="p-2 mb-2 bg-primary text-white rounded"><strong>Assistant:</strong> ${data.data}
-                    </div>`;
+                    if(data.hasOwnProperty('error')){
+                        document.getElementById('chat-box').innerHTML += `<div class="alert alert-danger">${data.error}</div>`;
+                    }else{
+                        document.getElementById('chat-box').innerHTML += `<div style="white-space: pre-line;" class="p-2 mb-2 bg-primary text-white rounded"><strong>Assistant:</strong> ${data.data}
+                        </div>`;
+                    }
                     // Reset ask button
                     document.getElementById('ask-button').innerHTML = 'Ask';
                     document.getElementById('ask-button').disabled = false;

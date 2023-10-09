@@ -171,8 +171,12 @@
         .then(response => response.json())
         .then(data => {
         	console.log(data)
-            uploadStatus.innerHTML = '<div class="alert alert-success">Delete successful</div>';
-            window.location.href='/upload'
+        	if(data.hasOwnProperty('error')){
+        		uploadStatus.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+        	}else{
+	            uploadStatus.innerHTML = '<div class="alert alert-success">Delete successful</div>';
+	            window.location.href='/upload'
+	        }
 
         })
         .catch(error => {
