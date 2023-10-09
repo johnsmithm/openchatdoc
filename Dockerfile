@@ -7,6 +7,8 @@ COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
+RUN pip install pylint
+
 EXPOSE 6017
 
 CMD ["/bin/bash"]

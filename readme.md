@@ -71,7 +71,10 @@ If you see something that doesn't quite work the way you expect it to, open an I
 
 If you would like to suggest new functionality, open an Issue and mark it as a __[Feature request]__. Please be specific about why you think this functionality will be of use. If you can, please include some visual description of what you would like the UI to look like, if you are suggesting new UI elements. 
 
-
+Make sure the code format is ok 
+```bash
+pylint $(git ls-files '*.py')
+```
 
 ## Built With
 
