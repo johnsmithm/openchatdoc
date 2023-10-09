@@ -20,7 +20,8 @@ https://github.com/johnsmithm/openchatdoc/assets/10476109/89e237ce-f206-4514-933
 ## Connect with me
 
 [<img align="left" alt="ion | LinkedIn" width="22px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Linkedin.svg/1200px-Linkedin.svg.png" />][linkedin]
-<br />
+
+[![linkedin]](https://www.linkedin.com/in/ionmosnoi/)
 
 ## How to Use OpenChatDoc 🚀
 
