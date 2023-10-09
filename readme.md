@@ -19,9 +19,14 @@ https://github.com/johnsmithm/openchatdoc/assets/10476109/89e237ce-f206-4514-933
 
 ## Connect with me
 
-[<img align="left" alt="ion | LinkedIn" width="22px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Linkedin.svg/1200px-Linkedin.svg.png" />][linkedin]
+[linkedin]: https://img.shields.io/static/v1?label=&message=LinkedIn&&color=3B3B7A&logo=linkedin
+[devdotto]: https://img.shields.io/static/v1?label=&message=Blog&color=3B3B7A&logo=devdotto
+[telegram]: https://img.shields.io/static/v1?label=&message=Telegram&&color=3B3B7A&logo=telegram
+[twitter]: https://img.shields.io/static/v1?label=&message=Twitter&&color=3B3B7A&logo=twitter
 
+[![twitter]](https://twitter.com/ionmosnoi)
 [![linkedin]](https://www.linkedin.com/in/ionmosnoi/)
+[![telegram]](https://t.me/ionmosnoi/)
 
 ## How to Use OpenChatDoc 🚀
 
