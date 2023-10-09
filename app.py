@@ -53,7 +53,7 @@ def upload_api():
         file = request.files.get("file")
         if file is None:
             return jsonify({"error": 'No files'}), 400
-        if file.filename.split('.')[-1].lower() not in ['pdf','txt','doc','docx']:
+        if file.filename.split('.')[-1].lower() not in ['pdf','txt','doc','docx','xml','json','md']:
             return jsonify({"error": 'File extension not supported'}), 400
 
         data = process_files([file])

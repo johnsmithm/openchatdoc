@@ -48,7 +48,7 @@
 	<div id="upload-status" class="mt-2"></div>
 	<div class="d-flex flex-column align-items-center mt-2">
 	    <button id="add-button" class="btn btn-dark mb-2">Add</button>
-	    <button id="chat-button" class="btn btn-light" onclick="window.location.href='/chat'">Chat with Document</button>
+	    <button id="chat-button" class="btn btn-light" onclick="window.location.href='/chat'">Chat with Documents</button>
 	</div>
 
     
@@ -119,7 +119,7 @@
 	    form.appendChild(input);
 	    var ext = input.files[0].name.split('.').slice(-1)[0].toLowerCase();
 
-        uploadStatus.innerHTML = '<div class="alert alert-success">Uploading...' + files[n].name +'</div>';
+        uploadStatus.innerHTML = '<div class="alert alert-success">Uploading: ' + files[n].name +'...</div>';
 
         fetch('/api/upload', {
             method: 'POST',
@@ -128,9 +128,13 @@
         .then(response => response.json())
         .then(data => {
         	console.log(data)
-            uploadStatus.innerHTML = '<div class="alert alert-success">Upload successful</div>';
-            uploadOneFile(n+1, files)
-
+        	if(data.hasOwnProperty('error')){
+        		uploadStatus.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+        	}else{
+            	uploadStatus.innerHTML = '<div class="alert alert-success">Upload successful</div>';
+            	uploadOneFile(n+1, files)
+        	}
+            
         })
         .catch(error => {
             uploadStatus.innerHTML = '<div class="alert alert-danger">Upload failed</div>';
@@ -144,7 +148,7 @@
     });
 
     function updateFileList() {
-        fileList.innerHTML = '';
+        fileList.innerHTML = 'To Upload:<br>';
         files.forEach((file, index) => {
             const fileInfo = document.createElement('div');
             fileInfo.classList.add('file-info');

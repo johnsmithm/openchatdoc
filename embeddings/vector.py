@@ -55,7 +55,7 @@ def process_files(files):
 
                 documents.append(Document(page_content=page_text, metadata={'source':filename}))
                 
-        if file_path.split('.')[-1].lower() in ['txt']:
+        if file_path.split('.')[-1].lower() in ['txt','md','json','xml']:
             loader = TextLoader(file_path)
             documents = loader.load()
 
