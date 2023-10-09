@@ -19,35 +19,37 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 @app.route('/api/chat', methods=['POST'])
 def chat_api():
-    # try:
-    if 1:
+    try:
         data = get_response_llm(request.json)
 
         return jsonify({"response": "success", "data": data })
 
-    # except Exception as error:
-    #     return jsonify({"error": str(error)}), 400
+    except Exception as error:
+        return jsonify({"error": str(error)}), 400
 
 
 @app.route('/api/delfile', methods=['DELETE'])
 def delfile_api():
-    file = request.args.get("fileid")
-    if file is None or file.find('..')>=0:
-        return jsonify({"error": "bad id file"}), 400
+    try:
+        file = request.args.get("fileid")
+        if file is None or file.find('..')>=0:
+            return jsonify({"error": "bad id file"}), 400
 
-    if os.path.exists(FILES_DIR+'/'+file):
-        shutil.rmtree(FILES_DIR+'/'+file)
+        if os.path.exists(FILES_DIR+'/'+file):
+            shutil.rmtree(FILES_DIR+'/'+file)
 
-    shutil.rmtree(FILES_DIR+'/all')
+        shutil.rmtree(FILES_DIR+'/all')
 
-    index_files()
+        index_files()
 
-    return jsonify({"response": "success", "data": [] })
+        return jsonify({"response": "success", "data": [] })
+    except Exception as error:
+        return jsonify({"error": str(error)}), 400
+
 
 @app.route('/api/upload', methods=['POST'])
 def upload_api():
-    # try:
-    if 1:
+    try:
         file = request.files.get("file")
         if file is None:
             return jsonify({"error": 'No files'}), 400
@@ -58,8 +60,8 @@ def upload_api():
 
         return jsonify({"response": "success", "data": data })
 
-    # except Exception as error:
-    #     return jsonify({"error": str(error)}), 400
+    except Exception as error:
+        return jsonify({"error": str(error)}), 400
 
 
 @app.route('/chat', methods=['GET'])
@@ -81,8 +83,6 @@ def upload_page():
         body['files'] .append(dict(name=path.split('/')[-1], id=path.split('/')[-2]))
 
     return render_template('upload.html', body=body)
-
-
 
 if __name__ == '__main__':
     
