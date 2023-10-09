@@ -1,7 +1,7 @@
 # OpenChatDoc - opensource flask gpt boillerplate for talking with your documents
 
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/johnsmithm/quivr?style=social)](https://github.com/johnsmithm/openchatdoc)
+[![GitHub Repo stars](https://img.shields.io/github/stars/johnsmithm/openchatdoc?style=social)](https://github.com/johnsmithm/openchatdoc)
 [![Twitter Follow](https://img.shields.io/twitter/follow/ionmosnoi?style=social)](https://twitter.com/ionmosnoi)
 
 ## Key Features 🎯
