@@ -1,5 +1,9 @@
 # OpenChatDoc - opensource flask gpt boillerplate for talking with your documents
 
+
+[![GitHub Repo stars](https://img.shields.io/github/stars/johnsmithm/quivr?style=social)](https://github.com/johnsmithm/openchatdoc)
+[![Twitter Follow](https://img.shields.io/twitter/follow/ionmosnoi?style=social)](https://twitter.com/ionmosnoi)
+
 ## Key Features 🎯
 
 - **OpenChatDoc**: OpenChatDoc is a versatile open-source project for file management and conversation using Flask framework.
@@ -13,7 +17,10 @@
 
 https://github.com/johnsmithm/openchatdoc/assets/10476109/89e237ce-f206-4514-9338-3f5cefda47fe
 
-Click the image above to watch the OpenChatDoc demo in action.
+## Connect with me
+
+[<img align="left" alt="ion | LinkedIn" width="22px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Linkedin.svg/1200px-Linkedin.svg.png" />][linkedin]
+<br />
 
 ## How to Use OpenChatDoc 🚀
 
@@ -27,12 +34,18 @@ git clone https://github.com/johnsmithm/openchatdoc.git
 pip install -r requirements.txt
 ```
 
-3. Start the Flask server:
+3. set env variable :
+```
+copy .env_example .env
+OPENAI_API_KEY="sk-.."
+```
+
+4. Start the Flask server:
 ```
 python app.py 5000
 ```
 
-4. Access OpenChatDoc in your web browser at `http://localhost:5000`.
+5. Access OpenChatDoc in your web browser at `http://localhost:5000`.
 
 Note: Please ensure that you have Python and Flask installed on your system before running OpenChatDoc.
 
