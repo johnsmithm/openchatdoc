@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: chatfile API
+  description: Flask REST API
+  version: 1.0.0
+  license: MPL 2.0
+servers:
+  - url: http://example.com:5000/api
+    description: Dev server
+  - url: http://localhost:5000/api
+    description: Local server
+security:
+  - basicAuth: []
+paths:
+  /api/chat:
+    description: talk to files
+    get:
+      summary: Returns llm response
+      parameters:
+        - in: query
+          name: query
+          type: string
+      responses:
+        '200':
+          description: Message founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/LLMResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/ServerError'

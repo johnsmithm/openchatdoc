@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Chat Interface</title>
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	
+</head>
+<body>
+
+<div class="container">
+    
+
+    {% include 'header.html' %}
+
+    <div class="row">
+        <div class="col-12 text-center my-3">
+            <h1 class="text-black">Chat Interface</h1>
+            <h2 class="text-black">Talk to Your Assistant</h2>
+        </div>
+    </div>
+
+    <div id="chat-box" class="border p-3 mb-3" style="height: 60vh; overflow-y: auto;">
+        <!-- <div class="p-2 mb-2 bg-light rounded">
+            <strong>User:</strong> Hello, Assistant!
+        </div>
+        <div class="p-2 mb-2 bg-primary text-white rounded">
+            <strong>Assistant:</strong> Hello, User! How can I assist you today?
+        </div> -->
+    </div>
+
+    <div class="input-group mb-3">
+    <textarea id="user-input" class="form-control" placeholder="Type your message..." aria-label="User input"></textarea>
+    <div class="input-group-append">
+        <button id="ask-button" class="btn btn-dark" type="button">Ask</button>
+        <button id="settings-button" class="btn btn-secondary" type="button"><i class="fas fa-cog"></i>Settings</button>
+    </div>
+</div>
+
+</div>
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settings-modal-label">Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h6>Change your model</h6>
+                <select id="model-select" class="form-control mb-3">
+                    <option>GPT-4</option>
+                    <option>GPT-3</option>
+                    <option>GPT-3-16</option>
+                </select>
+                <label for="temperature-slider">Temperature: <span id="temperature-value">0.5</span></label>
+                <input id="temperature-slider" type="range" class="custom-range mb-3" min="0" max="1" step="0.01" value="0.5">
+                <label for="tokens-slider">Tokens: <span id="tokens-value">2050</span></label>
+                <input id="tokens-slider" type="range" class="custom-range mb-3" min="100" max="4000" step="1" value="2050">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateSettings()">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script>
+    var message_list = [];
+    // Function to handle the sending of a message
+    function sendMessage() {
+        const userMessage = document.getElementById('user-input').value;
+        if(userMessage.trim() !== '') {
+            // Append user message to chat
+            document.getElementById('chat-box').innerHTML += `<div  style="white-space: pre-line;"  class="p-2 mb-2 bg-light rounded">
+            <strong>User:</strong> ${userMessage}
+        </div>`;
+            // Clear user input
+            document.getElementById('user-input').value = '';
+            // Change ask button to loading state
+            document.getElementById('ask-button').innerHTML = 'Thinking... <i class="fas fa-spinner fa-spin"></i>';
+            document.getElementById('ask-button').disabled = true;
+
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                        message_list: message_list,
+                        query:userMessage
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    document.getElementById('chat-box').innerHTML += `<div style="white-space: pre-line;" class="p-2 mb-2 bg-primary text-white rounded"><strong>Assistant:</strong> ${data.data}
+                    </div>`;
+                    // Reset ask button
+                    document.getElementById('ask-button').innerHTML = 'Ask';
+                    document.getElementById('ask-button').disabled = false;
+                    message_list.push({role:'user', content:userMessage})
+                    message_list.push({role:'assistant', content:data['data']})
+
+                })
+                .catch(error => {
+                    console.log('er')
+                });
+        }
+    }
+
+    // Function to handle the updating of settings
+    function updateSettings() {
+        const selectedModel = document.getElementById('model-select').value;
+        const temperature = document.getElementById('temperature-slider').value;
+        const tokens = document.getElementById('tokens-slider').value;
+
+        // Send settings to server (this is a simplified example, you'd use AJAX in a real-world scenario)
+        console.log('Settings updated:', {selectedModel, temperature, tokens});
+
+        // Here you would send an AJAX request to the /settings endpoint with the updated settings
+    }
+
+    // Event listeners
+    document.getElementById('ask-button').addEventListener('click', sendMessage);
+    document.getElementById('user-input').addEventListener('keyup', (event) => {
+        if(event.keyCode === 13) {
+            sendMessage();
+        }
+    });
+    document.getElementById('settings-button').addEventListener('click', () => {
+        $('#settings-modal').modal('show');
+    });
+
+	// Update labels when sliders are moved
+    document.getElementById('temperature-slider').addEventListener('input', () => {
+        document.getElementById('temperature-value').innerText = document.getElementById('temperature-slider').value;
+    });
+    document.getElementById('tokens-slider').addEventListener('input', () => {
+        document.getElementById('tokens-value').innerText = document.getElementById('tokens-slider').value;
+    });
+</script>
+
+</body>
+</html>

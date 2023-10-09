@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>File Upload</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    #drop-zone {
+        border: 2px dashed #aaa;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+    }
+    .file-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container mt-5">
+	{% include 'header.html' %}
+
+    <div id="file-list_existing">
+    	
+    	{% for item in body.files %}
+    		<div class="file-info">
+		     {{ item.name }}
+                <button class="btn btn-sm btn-danger" onclick="removeExistingFile('{{item.id}}')">X</button>
+            </div>
+		{% endfor %}
+    </div>
+    <div id="file-list">
+    	
+    </div>
+
+    <div id="drop-zone">
+        Drag and drop some files here, or use the upload button
+        <input type="file" id="file-input" class="d-none" multiple>
+        <label for="file-input" class="btn btn-secondary mt-2">Upload Button</label>
+    </div>
+
+	<div id="upload-status" class="mt-2"></div>
+	<div class="d-flex flex-column align-items-center mt-2">
+	    <button id="add-button" class="btn btn-dark mb-2">Add</button>
+	    <button id="chat-button" class="btn btn-light" onclick="window.location.href='/chat'">Chat with Document</button>
+	</div>
+
+    
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+    const addButton = document.getElementById('add-button');
+    const uploadStatus = document.getElementById('upload-status');
+    let files = [];
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('bg-secondary');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('bg-secondary');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('bg-secondary');
+        files.push(...e.dataTransfer.files);
+        updateFileList();
+    });
+
+    fileInput.addEventListener('change', () => {
+        files.push(...fileInput.files);
+        updateFileList();
+    });
+
+    function FileListItems (files) {
+	  var b = new ClipboardEvent("").clipboardData || new DataTransfer()
+	  for (var i = 0, len = files.length; i<len; i++) b.items.add(files[i])
+	  return b.files
+	}
+
+    function uploadOneFile(n, files){
+    	if(n>=files.length)
+    		return;
+    	const formData = new FormData();
+
+        var input = document.createElement('input');
+	    input.type = 'file';
+	    input.name = 'file'
+	    input.next = 'list'
+	    input.multiple = true;
+	    let list = new DataTransfer();
+	    const fileSize = files[n].size / 1024 / 1024; // in MiB
+	    if(fileSize>40){
+	        alert("File is bigger than 4MB!");
+	        return;
+	    }
+	    input.files = new FileListItems([files[n]])
+	    console.log('done')
+	    var form = document.createElement('form');
+	    form.method = "POST";
+	    form.action = '/api/upload';
+	    form.enctype="multipart/form-data";
+	    form.appendChild(input);
+	    var ext = input.files[0].name.split('.').slice(-1)[0].toLowerCase();
+
+        uploadStatus.innerHTML = '<div class="alert alert-success">Uploading...' + files[n].name +'</div>';
+
+        fetch('/api/upload', {
+            method: 'POST',
+            body: new FormData(form),
+        })
+        .then(response => response.json())
+        .then(data => {
+        	console.log(data)
+            uploadStatus.innerHTML = '<div class="alert alert-success">Upload successful</div>';
+            uploadOneFile(n+1, files)
+
+        })
+        .catch(error => {
+            uploadStatus.innerHTML = '<div class="alert alert-danger">Upload failed</div>';
+        });
+    }
+
+    addButton.addEventListener('click', () => {
+        if (files.length > 0) {
+            uploadOneFile(0, files)
+        }
+    });
+
+    function updateFileList() {
+        fileList.innerHTML = '';
+        files.forEach((file, index) => {
+            const fileInfo = document.createElement('div');
+            fileInfo.classList.add('file-info');
+            fileInfo.innerHTML = `
+                ${file.name}
+                <button class="btn btn-sm btn-danger" onclick="removeFile(${index})">X</button>
+            `;
+            fileList.appendChild(fileInfo);
+        });
+    }
+
+    function removeFile(index) {
+        files.splice(index, 1);
+        updateFileList();
+    }
+    function removeExistingFile(id){
+    	fetch('/api/delfile?fileid='+id, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+        	console.log(data)
+            uploadStatus.innerHTML = '<div class="alert alert-success">Delete successful</div>';
+            window.location.href='/upload'
+
+        })
+        .catch(error => {
+            uploadStatus.innerHTML = '<div class="alert alert-danger">Delete failed</div>';
+        });
+    }
+</script>
+
+</body>
+</html>
